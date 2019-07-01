@@ -1,0 +1,23 @@
+<?php
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, $id) {<% if(item.controller.update.validations) { %>
+		$validator = Validator::make($request->all(), [<% item.controller.update.validations.forEach(validation => { %>
+			<%-JSON.stringify(validation[0]);%> => <%-JSON.stringify(validation[1]);%>,<% }); %>
+		]);
+		if ($validator->fails()) {
+			return $this->httpError(400, [], ["message" => $validator->errors()->first()]);
+		}<% } %>
+		$item = <%-context.getOnlyName(item.model.namespace);%>::find($id);
+		if (!isset($item)) {
+			return $this->httpError(404, [], ["message" => "Item with id $id was not found."]);
+		}
+		$item->update($request->all());
+		return $this->httpSuccess($item);
+	}

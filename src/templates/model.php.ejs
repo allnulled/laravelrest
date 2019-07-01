@@ -1,0 +1,19 @@
+<?php
+
+namespace <%-context.getOnlyNamespace(item.model.namespace);%>;
+
+use <%-item.model.parent;%>;
+<% item.model.dependencies.forEach(dependency => { %>
+use <%-dependency;%>
+<% }); %>
+class <%-context.getOnlyName(item.model.namespace);%> extends <%-context.getOnlyName(item.model.parent);%> {
+
+	protected $table = <%-JSON.stringify(item.model.table, null, 2)%>;
+
+	protected $fillable = <%-JSON.stringify(item.model.fillable)%>;
+
+	protected $hidden = <%-JSON.stringify(item.model.hidden)%>;
+	<% item.model.extras.forEach(extra => { %>
+	<%-extra%>
+	<% }); %>
+}

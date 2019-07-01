@@ -1,0 +1,34 @@
+<?php
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index(<%-context.getOnlyName(item.controller.index.request);%> $request) {<% let index = 0;
+		if(item.controller.index.validations) { %>
+		$validator = Validator::make($request->all(), [<% item.controller.index.validations.forEach(validation => { %>
+			<%-JSON.stringify(validation[0]);%> => <%-JSON.stringify(validation[1]);%>,<% }); %>
+		]);
+		if ($validator->fails()) {
+			return $this->httpError(400, [], ["message" => $validator->errors()->first()]);
+		}<% } %>
+		$fields = $request->input("fields") ? explode(",", $request->input("fields")) : ["*"];
+		$limit = $request->input("limit") ? $request->input("limit") : 20;
+		$page = $request->input("page") ? $request->input("page") : 0;
+		$sort = $request->input("sort") ? $request->input("sort") : "id asc";
+		$group = $request->input("group") ? $request->input("group") : "id";
+		$where = $request->input("where") ? $request->input("where") : null;
+		$query = <%-context.getOnlyName(item.model.namespace);%>::select($fields)
+			->limit($limit)->offset($page * $limit)
+			->orderByRaw(str_replace(":", " ", $sort))
+			->groupBy(...explode(",", $group));
+		if (isset($where)) {
+			$whereOps = explode(",", $where);
+			foreach ($whereOps as $whereOp) {
+				$query = $query->where(...explode(":", $whereOp, 2));
+			}
+		}
+		$data = $query->get();
+		return $this->httpSuccess($data);
+	}

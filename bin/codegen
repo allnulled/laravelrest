@@ -1,0 +1,24 @@
+const yargs = require("yargs");
+const chalk = require("chalk");
+
+//////////////////////////////////////////////////////////////
+
+const args = yargs
+  .option("output", {
+    type: "string"
+  }).option("input", {
+    type: "string"
+  }).argv;
+
+if(!args.input) {
+  return console.log(chalk.red.bold("Error: argument <input> (refering to a JSON file) is required and must be a <string>."));
+}
+
+if(!args.output) {
+  return console.log(chalk.red.bold("Error: argument <output> (refering to a fresh folder) is required and must be a <string>."));
+}
+
+//////////////////////////////////////////////////////////////
+
+require(__dirname + "/../src/codegen.js").run(args);
+

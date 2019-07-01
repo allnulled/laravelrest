@@ -1,0 +1,13 @@
+<?php
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show($id) {
+		$item = <%-context.getOnlyName(item.model.namespace);%>::find($id);
+		return $this->httpSuccess($item);
+
+	}

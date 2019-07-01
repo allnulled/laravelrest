@@ -1,0 +1,19 @@
+<?php
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request) {<% if(item.controller.store.validations) { %>
+		$validator = Validator::make($request->all(), [<% item.controller.store.validations.forEach(validation => { %>
+			<%-JSON.stringify(validation[0]);%> => <%-JSON.stringify(validation[1]);%>,<% }); %>
+		]);
+		if ($validator->fails()) {
+			return $this->httpError(400, [], ["message" => $validator->errors()->first()]);
+		}<% } %>
+		$item = new <%-context.getOnlyName(item.model.namespace);%>($request->all());
+		$item->save();
+		return $this->httpSuccess($item);
+	}

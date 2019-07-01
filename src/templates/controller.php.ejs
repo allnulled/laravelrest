@@ -1,0 +1,19 @@
+<?php
+
+namespace <%-context.getOnlyNamespace(item.controller.namespace);%>;
+
+use <%-item.controller.parent;%>;
+use <%-item.model.namespace;%>;
+use <%-item.controller.request;%>;
+use <%-item.controller.validator;%>;
+<% item.controller.dependencies.forEach(dependency => { %>
+use <%-dependency;%>
+<% }); %>
+
+class <%-context.getOnlyName(item.controller.namespace);%> extends <%-context.getOnlyName(item.controller.parent);%> {
+<%-ejs.render(fs.readFileSync(context.formatString(item.controller.index.templatePath)).toString(), locals).replace(/^<\?php\n?/g,"");%>
+<%-ejs.render(fs.readFileSync(context.formatString(item.controller.show.templatePath)).toString(), locals).replace(/^<\?php\n?/g,"");%>
+<%-ejs.render(fs.readFileSync(context.formatString(item.controller.store.templatePath)).toString(), locals).replace(/^<\?php\n?/g,"");%>
+<%-ejs.render(fs.readFileSync(context.formatString(item.controller.update.templatePath)).toString(), locals).replace(/^<\?php\n?/g,"");%>
+<%-ejs.render(fs.readFileSync(context.formatString(item.controller.destroy.templatePath)).toString(), locals).replace(/^<\?php\n?/g,"");%>
+}

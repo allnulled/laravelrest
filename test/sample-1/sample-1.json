@@ -1,0 +1,104 @@
+{
+
+  "others": {
+    "apiRoutes": {
+      "templatePath": "${__dirname}/templates/api.php.ejs",
+      "outputFile": "${context.options.output}/routes/api.php",
+      "prefixPath": "/v1",
+      "errorController": "\\App\\Http\\Controllers\\ErrorController@endpointNotFound"
+    },
+    "baseController": {
+      "templatePath": "${__dirname}/templates/base-controller.php.ejs",
+      "outputFile": "${context.options.output}/app/Http/Controllers/Controller.php"
+    },
+    "errorController": {
+      "templatePath": "${__dirname}/templates/error-controller.php.ejs",
+      "outputFile": "${context.options.output}/app/Http/Controllers/ErrorController.php"
+    }
+  },
+  "default": {
+    "model": {
+      "templatePath": "${__dirname}/templates/model.php.ejs",
+      "namespace": null,
+      "table": "examples",
+      "dependencies": [],
+      "parent": "Illuminate\\Database\\Eloquent\\Model",
+      "fillable": [],
+      "hidden": [],
+      "extras": []
+    },
+    "controller": {
+      "templatePath": "${__dirname}/templates/controller.php.ejs",
+      "namespace": null,
+      "dependencies": [],
+      "route": "/user",
+      "parent": "App\\Http\\Controllers\\Controller",
+      "request": "Illuminate\\Http\\Request",
+      "validator": "Illuminate\\Support\\Facades\\Validator",
+      "index": {
+        "templatePath": "${__dirname}/templates/partials/controller.index.php.ejs",
+        "request": "${item.controller.request}",
+        "validations": null
+      },
+      "show": {
+        "templatePath": "${__dirname}/templates/partials/controller.show.php.ejs",
+        "request": "${item.controller.request}"
+      },
+      "store": {
+        "templatePath": "${__dirname}/templates/partials/controller.store.php.ejs",
+        "request": "${item.controller.request}"
+      },
+      "update": {
+        "templatePath": "${__dirname}/templates/partials/controller.update.php.ejs",
+        "request": "${item.controller.request}"
+      },
+      "destroy": {
+        "templatePath": "${__dirname}/templates/partials/controller.destroy.php.ejs",
+        "request": "${item.controller.request}"
+      }
+    }
+  },
+  "items": [
+    {
+      "model": {
+        "namespace": "App\\User",
+        "table": "users",
+        "fillable": ["name", "password", "email", "alias", "phone", "description"],
+        "hidden": ["password"]
+      },
+      "controller": {
+        "namespace": "App\\Http\\Controllers\\UserController",
+        "index": {
+          "validations": [
+            ["page", "nullable|integer"],
+            ["sort", "nullable|string"],
+            ["limit", "nullable|integer"],
+            ["fields", "nullable|string"]
+          ]
+        },
+        "show": {},
+        "store": {
+          "validations": [
+            ["name", "required|string|max:64|unique:user"],
+            ["password", "required|string|min:8|max:64"],
+            ["email", "required|string|max:256|email|unique:user"],
+            ["alias", "required|string|max:64"],
+            ["phone", "required|string|max:32"],
+            ["description", "required|string|max:510"]
+          ]
+        },
+        "update": {
+          "validations": [
+            ["name", "nullable|string|max:64"],
+            ["password", "nullable|string|min:8|max:64"],
+            ["email", "nullable|string|max:256|email"],
+            ["alias", "nullable|string|max:64"],
+            ["phone", "nullable|string|max:32"],
+            ["description", "nullable|string|max:510"]
+          ]
+        },
+        "destroy": {}
+      }
+    }
+  ]
+}
