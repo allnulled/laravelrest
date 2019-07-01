@@ -1,9 +1,9 @@
 {
   "name": "rest-codegen-laravel",
   "version": "1.0.0",
-  "description": "",
+  "description": "Generate models, controllers, routers and other files for Laravel REST APIs from JSON and EJS templates.",
   "bin": {
-    "larestgen": "./bin/codegen"
+    "laravelrest": "./bin/codegen"
   },
   "main": "src/codege.js",
   "scripts": {
@@ -24,5 +24,16 @@
     "chai": "^4.2.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allnulled/laravelrest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/allnulled/laravelrest/issues"
+  },
+  "homepage": "https://github.com/allnulled/laravelrest#readme"
 }

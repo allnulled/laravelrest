@@ -1,5 +1,7 @@
 # laravelrest
 
+Generate models, controllers, routers and other files for Laravel REST APIs from JSON and EJS templates.
+
 ## Installation
 
 `$ npm i -s laravelrest`
